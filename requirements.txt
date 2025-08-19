@@ -1,0 +1,4 @@
+PyQt5
+numpy
+ffmpeg-python
+opencv-python
