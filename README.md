@@ -26,6 +26,10 @@
 > 使用演示（点击图片播放👇）
 > 
 > [![视频封面](https://i1.hdslb.com/bfs/archive/d81bf273e65a74a81756599a64e9d975b175390f.jpg@672w_378h_1c.avif)](https://www.bilibili.com/video/BV1HwgrzbEow)
+>
+>  **需要最新版AB视频去重工具的朋友可以到最下方联系我**
+>
+> ![AB视频去重工具](https://llxoxll.com/assets/cache/images/202507121956051588517.png)
 
 ### 🚀 工作原理
 
@@ -196,6 +200,7 @@ pyinstaller --name "AB视频去重工具" --noconfirm --onefile --windowed --ico
     </td>
 
 </table>
+
 
 
 
