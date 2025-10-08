@@ -148,7 +148,7 @@
       <br />
       <sub><b>个人微信</b></sub>
       <br />
-      <sub>微信号: toki-plus (请备注“GitHub工具定制”)</sub>
+      <sub>微信号: toki-plus (请备注“GitHub定制”)</sub>
     </td>
     <td align="center">
       <img src="./assets/gzh.png" alt="公众号二维码" width="200"/>
@@ -176,5 +176,6 @@
 ## 📜 开源协议
 
 本项目基于 MIT 协议开源。详情请见 [LICENSE](LICENSE) 文件。
+
 
 
