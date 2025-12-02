@@ -110,6 +110,28 @@
 5.  点击“开始处理”，等待进度条完成。
 6.  处理完成的视频将保存在 `output` 文件夹中。
 
+<p align="center">
+  <strong>技术交流，请添加：</strong>
+</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="./assets/images/wechat.png" alt="微信二维码" width="200"/>
+      <br />
+      <sub><b>个人微信</b></sub>
+      <br />
+      <sub>微信号: toki-plus (请备注“GitHub”)</sub>
+    </td>
+    <td align="center">
+      <img src="./assets/images/gzh.png" alt="公众号二维码" width="200"/>
+      <br />
+      <sub><b>公众号</b></sub>
+      <br />
+      <sub>获取最新技术分享与项目更新</sub>
+    </td>
+  </tr>
+</table>
+
 ## 📂 我的其他开源项目
 
 -   **[AI-TTV-Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: 一款AI驱动的文本转视频工具，能将任意文案自动转化为带有配音、字幕和封面的短视频，支持AI文案提取、二创和翻译。
@@ -126,6 +148,7 @@
 ## 📜 开源协议
 
 本项目基于 MIT 协议开源。详情请见 [LICENSE](LICENSE) 文件。
+
 
 
 
