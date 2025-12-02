@@ -122,7 +122,7 @@ Traditional deduplication methods (filters, scaling, mirroring) are becoming les
       <br />
       <sub><b>WeChat</b></sub>
       <br />
-      <sub>ID: toki-plus (Note: "GitHub Customization")</sub>
+      <sub>ID: toki-plus (Note: "GitHub")</sub>
     </td>
     <td align="center">
       <img src="./assets/gzh.png" alt="Public Account QR Code" width="200"/>
