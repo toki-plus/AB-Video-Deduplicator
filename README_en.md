@@ -136,6 +136,7 @@ Traditional deduplication methods (filters, scaling, mirroring) are becoming les
 
 ## 📂 My Other Open-Source Projects
 
+-   **[AI Video Workflow](https://github.com/toki-plus/ai-video-workflow)**: A fully automated AI-native video generation pipeline, integrating Text-to-Image, Image-to-Video, and Text-to-Music models to create AIGC short videos with one click.
 -   **[AI Highlight Clip](https://github.com/toki-plus/ai-highlight-clip)**: An AI-driven tool that automatically discovers, analyzes, and clips "highlight moments" from long-form videos, complete with auto-generated viral titles.
 -   **[AI TTV Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: An AI-driven text-to-video tool that automatically converts any script into a short video with voiceover, subtitles, and a cover. Supports AI script extraction, rewriting, and translation.
 -   **[Video Mover](https://github.com/toki-plus/video-mover)**: A powerful, fully automated pipeline that monitors creators, downloads their new videos, performs deep deduplication, generates AI-powered titles, and auto-publishes to different platforms.
