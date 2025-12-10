@@ -136,7 +136,8 @@
 
 ## 📂 我的其他开源项目
 
--   **[AI-TTV-Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: 一款AI驱动的文本转视频工具，能将任意文案自动转化为带有配音、字幕和封面的短视频，支持AI文案提取、二创和翻译。
+-   **[AI Highlight Clip](https://github.com/toki-plus/ai-highlight-clip)**: 一款AI驱动的智能剪辑工具，能够全自动地从长视频中分析、发现并剪辑出多个“高光时刻”短视频，并自动生成爆款标题。
+-   **[AI TTV Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: 一款AI驱动的文本转视频工具，能将任意文案自动转化为带有配音、字幕和封面的短视频，支持AI文案提取、二创和翻译。
 -   **[Video Mover](https://github.com/toki-plus/video-mover)**: 一个强大的、全自动化的内容创作流水线工具。它可以自动监听、下载指定的博主发布的视频，进行深度、多维度的视频去重处理，并利用AI大模型生成爆款标题，最终自动发布到不同平台。
 
 ## 🤝 参与贡献
@@ -150,3 +151,4 @@
 ## 📜 开源协议
 
 本项目基于 MIT 协议开源。详情请见 [LICENSE](LICENSE) 文件。
+
