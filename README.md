@@ -1,172 +1,73 @@
-﻿# AB 视频去重工具: 独创高帧率抽帧混合去重
+# AB Video Processor
 
-[简体中文](./README.md) | [English](./README_en.md)
+用于视频帧混合、格式转换与视觉特征实验的桌面工具。
 
-[![GitHub stars](https://img.shields.io/github/stars/toki-plus/AB-Video-Deduplicator?style=social)](https://github.com/toki-plus/AB-Video-Deduplicator/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/toki-plus/AB-Video-Deduplicator?style=social)](https://github.com/toki-plus/AB-Video-Deduplicator/network/members)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/toki-plus/AB-Video-Deduplicator/pulls)
+项目通过对两段视频进行抽帧、混合与重新编码，研究不同帧率、编码参数和 GPU 加速方案对输出视频视觉表现及数据特征的影响。
 
-> ### ⚠️ 重要声明
-> 此开源版本为早期版本，仅供技术研究与学习交流，请勿用于任何非法用途。由于平台算法更新，去重效果可能无法满足当前需求。
+> 请仅处理拥有合法使用权的素材。本项目不用于绕过平台审核、版权识别或其他安全机制。
 
-**AB视频去重工具** 是一款专为视频创作者设计的开源桌面应用，它通过创新的“高帧率抽帧混合”技术，从根本上重构视频数据指纹，以规避抖音、TikTok等主流短视频平台的原创度检测和查重机制。
+## 项目背景
 
-<p align="center">
-  <a href="https://www.bilibili.com/video/BV1HwgrzbEow" target="_blank">
-    <img src="./assets/cover_demo.png" alt="点击观看B站演示视频" width="800"/>
-  </a>
-  <br>
-  <em>(点击封面图跳转到 B 站观看高清演示视频)</em>
-</p>
+在视频处理和内容生产流程中，经常需要验证不同帧率、分辨率、混合策略和编码方式对输出结果的影响。手工执行 FFmpeg 命令不利于非技术用户重复调整和比较参数。
 
----
+本项目将相关处理流程封装为图形化工具，提供可重复的参数配置与进度反馈。
 
-## 💡 工作原理
+## 主要能力
 
-传统的视频去重方法（如添加滤镜、缩放、镜像）效果越来越有限。本工具采用了一种更为底层的“抽帧混合”策略：
+- 读取两段视频并分析基础媒体信息
+- 按配置进行抽帧与帧混合
+- 统一分辨率、帧率和编码参数
+- 支持多档处理强度
+- 在兼容环境下启用 NVIDIA GPU 加速
+- 通过 PyQt5 界面展示任务状态和进度
 
-1.  **输入两个视频**：
-    *   **视频 A (内容视频)**：你想要发布的目标视频。
-    *   **视频 B (素材视频)**：一个与视频A内容无关的原创实拍视频。
+## 技术流程
 
-2.  **生成高帧率视频**：工具会创建一个高帧率（例如 60/120/240 fps）的空白视频流。
+```text
+Video A + Video B
+    -> Media inspection
+    -> Resolution alignment
+    -> Frame sampling and mixing
+    -> FFmpeg encoding
+    -> Output validation
+```
 
-3.  **智能抽帧插入**：工具会按照特定算法，将 **视频 A** 的帧逐一插入到高帧率视频流的 **关键位置**，同时在两个 A 帧之间用 **视频 B** 的帧进行填充。
+主要技术：Python、PyQt5、NumPy、OpenCV、FFmpeg。
 
-4.  **最终效果**：由于平台压缩机制，观众在手机上看到的仍然是流畅的 **视频 A** 的画面。但从文件数据层面看，新生成的视频已包含了大量来自 **视频 B** 的帧，其 MD5 和数据指纹与原视频完全不同，从而达到深度去重的目的。
+## 快速开始
 
-| 去重强度 | 目标FPS | A:B 帧大致比例 |
-| :--- | :---: | :---: |
-| **50%** | 60 | 1 : 1 |
-| **75%** | 120 | 1 : 3 |
-| **87.5%**| 240 | 1 : 7 |
+### 环境要求
 
-## ✨ 核心功能
+- Python 3.8+
+- FFmpeg（需加入 `PATH`）
 
--   **直观的图形界面**：使用 PyQt5 构建，操作简单，无需命令行知识。
--   **三种去重强度**：提供 50% (60fps), 75% (120fps), 87.5% (240fps) 三种模式。
--   **🚀 NVIDIA GPU 加速**：支持使用 NVENC 硬件编码，大幅提升视频处理速度。
--   **自动分辨率匹配**：自动将视频 B 的分辨率调整为与视频 A 一致。
--   **音频保留**：完整保留视频 A 的原始音轨。
--   **实时进度与日志**：清晰展示处理进度和详细日志信息。
--   **跨平台运行**：在 Windows, macOS, Linux 上均可运行（需正确安装依赖）。
+```bash
+git clone https://github.com/toki-plus/AB-Video-Deduplicator.git
+cd AB-Video-Deduplicator
+python -m venv venv
+```
 
-## 📸 软件截图
+激活虚拟环境后安装依赖：
 
-<p align="center">
-  <img src="./assets/cover_software.png" alt="软件主界面" width="800"/>
-  <br>
-  <em>简洁直观的软件主界面。</em>
-</p>
+```bash
+pip install -r requirements.txt
+pyrcc5 src/resources.qrc -o src/resources.py
+python src/main.py
+```
 
-## 🚀 快速开始
+## 使用说明
 
-### 系统要求
+1. 选择两段拥有合法使用权的视频素材。
+2. 选择处理参数和输出目录。
+3. 如本机具备兼容的 NVIDIA 环境，可启用 GPU 加速。
+4. 启动任务并检查输出视频的画面、音频和时长。
 
-1.  **Python**: 3.8 或更高版本。
-2.  **FFmpeg**: **必须安装** 并且已将其可执行文件路径添加到系统的环境变量（`PATH`）中。
-    -   Windows: 可从 [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) 下载。
-    -   macOS: `brew install ffmpeg`
-    -   Linux: `sudo apt update && sudo apt install ffmpeg`
+## 当前限制
 
-### 安装与启动
+- 输出效果受源视频分辨率、帧率和编码格式影响。
+- GPU 加速依赖本机 FFmpeg 构建与驱动环境。
+- 当前仅包含基础测试工具，尚未建立完整的自动化回归测试。
 
-1.  **克隆本仓库：**
-    ```bash
-    git clone https://github.com/toki-plus/AB-Video-Deduplicator.git
-    cd AB-Video-Deduplicator
-    ```
+## License
 
-2.  **创建并激活虚拟环境 (推荐)：**
-    ```bash
-    python -m venv venv
-    # Windows 系统
-    venv\Scripts\activate
-    # macOS/Linux 系统
-    source venv/bin/activate
-    ```
-
-3.  **安装依赖库：**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  **生成 Qt 资源文件**
-    本应用的图标资源需要手动编译。请运行以下命令：
-    ```bash
-    pyrcc5 src/resources.qrc -o src/resources.py
-    ```
-5.  **运行程序：**
-    ```bash
-    python src/main.py
-    ```
-
-## 📖 使用指南
-
-1.  点击“选择视频A”，选择你的**内容视频**。
-2.  点击“选择视频B”，选择你的**素材视频**。
-3.  在“选择去重强度”下拉菜单中选择一个模式（推荐从 60fps 开始测试）。
-4.  如果你有NVIDIA显卡，勾选“开启GPU加速”。
-5.  点击“开始处理”，等待进度条完成。
-6.  处理完成的视频将保存在 `output` 文件夹中。
-
----
-
-<p align="center">
-  <strong>技术交流，请添加：</strong>
-</p>
-<table align="center">
-  <tr>
-    <td align="center">
-      <img src="./assets/wechat.png" alt="微信二维码" width="200"/>
-      <br />
-      <sub><b>个人微信</b></sub>
-      <br />
-      <sub>微信号: toki-plus</sub>
-      <br />
-      <sub>（请备注来意，否则不通过）</sub>
-    </td>
-    <td align="center">
-      <img src="./assets/gzh.png" alt="公众号二维码" width="200"/>
-      <br />
-      <sub><b>公众号</b></sub>
-      <br />
-      <sub>获取最新技术分享与项目更新</sub>
-    </td>
-  </tr>
-</table>
-
-## 📂 我的其他开源项目
-
--   **[AI-Trader-For-MT5](https://github.com/toki-plus/ai-trader-for-mt5)**: 面向 MetaTrader 5 的 AI 交易助手与 EA 工程化框架，支持 MQL5、Python、MCP 工具服务、风控模块和私有化定制开发。
--   **[Netease Downloader](https://github.com/toki-plus/netease-downloader)**: 一款优雅、功能丰富的网易云音乐下载器，支持无损/高品质音质、歌单/专辑批量下载、扫码登录和自动写入ID3元数据。
--   **[AI-Trader-For-MT4](https://github.com/toki-plus/ai-trader-for-mt4)**: LLM驱动的自主型MT4交易机器人框架，将大语言模型转变为能够在 MetaTrader 4 平台上进行“感知-思考-行动”的 AI 交易代理。
--   **[Auto USPS Tracker](https://github.com/toki-plus/auto-usps-tracker)**: 专为跨境电商卖家设计的 USPS 批量物流追踪器，支持批量查询并生成 Excel 报告。
--   **[AI Mixed Cut](https://github.com/toki-plus/ai-mixed-cut)**: AI 内容重构与混剪工具，通过“解构-重构”模式将现有视频解析为创作素材，并自动生成新的短视频内容。
--   **[AI Video Workflow](https://github.com/toki-plus/ai-video-workflow)**: 全自动 AI 原生视频生成工作流，集成文生图、图生视频和文生音乐模型，一键创作 AIGC 短视频。
--   **[AI Highlight Clip](https://github.com/toki-plus/ai-highlight-clip)**: AI 驱动的智能剪辑工具，自动从长视频中分析并提取高光片段，生成适合分发的短视频内容。
--   **[AI TTV Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: AI 驱动的文本转视频工具，自动将文案转化为带配音、字幕和封面的短视频。
--   **[Video Mover](https://github.com/toki-plus/video-mover)**: 全自动内容创作流水线，支持视频监听下载、多维度处理、AI 标题生成和多平台发布。
-
-
-## 🤝 参与贡献
-
-欢迎任何形式的贡献！如果你有新的功能点子、发现了Bug，或者有任何改进建议，请：
--   提交一个 [Issue](https://github.com/toki-plus/AB-Video-Deduplicator/issues) 进行讨论。
--   Fork 本仓库并提交 [Pull Request](https://github.com/toki-plus/AB-Video-Deduplicator/pulls)。
-
-如果这个项目对你有帮助，请不吝点亮一颗 ⭐！
-
-## 📜 开源协议
-
-本项目基于 MIT 协议开源。详情请见 [LICENSE](LICENSE) 文件。
-
-
-
-
-
-
-
-
-
-
+See [LICENSE](./LICENSE).

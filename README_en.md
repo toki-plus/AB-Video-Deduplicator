@@ -1,167 +1,73 @@
-﻿# AB Video Deduplicator: Unique High-Frame-Rate Blending for Deduplication
+# AB Video Processor
 
-[简体中文](./README.md) | [English](./README_en.md)
+A desktop tool for frame-mixing, transcoding, and visual-feature experiments.
 
-[![GitHub stars](https://img.shields.io/github/stars/toki-plus/AB-Video-Deduplicator?style=social)](https://github.com/toki-plus/AB-Video-Deduplicator/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/toki-plus/AB-Video-Deduplicator?style=social)](https://github.com/toki-plus/AB-Video-Deduplicator/network/members)
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/toki-plus/AB-Video-Deduplicator/pulls)
+The project samples, mixes, and re-encodes frames from two videos to evaluate how frame rate, encoding settings, and GPU acceleration affect the visual and data characteristics of the output.
 
-> ### ⚠️ Important Disclaimer
-> This open-source version is an early release intended for technical research and educational purposes only. Do not use it for any illegal activities. Due to platform algorithm updates, its deduplication effectiveness may not meet current standards.
+> Process only media that you are authorized to use. This project is not intended to bypass platform review, copyright detection, or other security controls.
 
-**AB Video Deduplicator is an open-source desktop application for video creators, designed to fundamentally alter a video's data fingerprint using an innovative "high-frame-rate frame sampling and blending" technique. It aims to bypass originality checks and deduplication mechanisms on major short-video platforms like TikTok.**
+## Context
 
-<p align="center">
-  <a href="https://www.bilibili.com/video/BV1HwgrzbEow" target="_blank">
-    <img src="./assets/cover_demo.png" alt="Click to watch the demo video on Bilibili" width="800"/>
-  </a>
-  <br>
-  <em>(Click the cover to watch the HD demo video on Bilibili)</em>
-</p>
+Video production workflows often need repeatable experiments across frame rates, resolutions, mixing strategies, and encoding parameters. Running individual FFmpeg commands makes iteration difficult for non-technical users.
 
----
+This project packages the workflow in a desktop interface with reusable settings and progress reporting.
 
-## 💡 How It Works
+## Capabilities
 
-Traditional deduplication methods (filters, scaling, mirroring) are becoming less effective. This tool employs a more fundamental "frame blending" strategy:
+- Inspect source media metadata
+- Sample and mix frames from two videos
+- Align resolution, frame rate, and encoding parameters
+- Provide multiple processing profiles
+- Use NVIDIA GPU acceleration when supported
+- Report task status and progress through a PyQt5 interface
 
-1.  **Input Two Videos**:
-    *   **Video A (Content Video)**: The main video you want to publish.
-    *   **Video B (Material Video)**: An original, unrelated video.
+## Processing Flow
 
-2.  **Generate High-Frame-Rate Stream**: The tool creates a high-frame-rate (e.g., 60/120/240 fps) video stream.
+```text
+Video A + Video B
+    -> Media inspection
+    -> Resolution alignment
+    -> Frame sampling and mixing
+    -> FFmpeg encoding
+    -> Output validation
+```
 
-3.  **Intelligent Frame Insertion**: Using a specific algorithm, frames from **Video A** are inserted into key positions of the new stream, while frames from **Video B** are used to fill the gaps between them.
+Core technologies: Python, PyQt5, NumPy, OpenCV, and FFmpeg.
 
-4.  **Final Result**: Due to platform compression, viewers on mobile devices still see a smooth playback of **Video A**. However, at the data level, the newly generated video contains a substantial number of frames from **Video B**, making its MD5 hash and data fingerprint completely different from the original, thus achieving deep deduplication.
+## Quick Start
 
-| Deduplication Level | Target FPS | Approx. A:B Frame Ratio |
-| :--- | :---: | :---: |
-| **50%** | 60 | 1 : 1 |
-| **75%** | 120 | 1 : 3 |
-| **87.5%**| 240 | 1 : 7 |
+### Requirements
 
-## ✨ Core Features
+- Python 3.8+
+- FFmpeg available on `PATH`
 
--   **Intuitive GUI**: Built with PyQt5 for simple, command-line-free operation.
--   **Three Deduplication Levels**: Offers 50% (60fps), 75% (120fps), and 87.5% (240fps) modes.
--   **🚀 NVIDIA GPU Acceleration**: Supports NVENC hardware encoding for significantly faster processing.
--   **Auto Resolution Matching**: Automatically resizes Video B to match Video A's resolution.
--   **Audio Preservation**: The original audio track from Video A is fully retained.
--   **Real-time Progress & Logging**: Clearly displays processing progress and detailed logs.
--   **Cross-Platform**: Runs on Windows, macOS, and Linux (with correct dependencies installed).
+```bash
+git clone https://github.com/toki-plus/AB-Video-Deduplicator.git
+cd AB-Video-Deduplicator
+python -m venv venv
+```
 
-## 📸 Screenshots
+After activating the virtual environment:
 
-<p align="center">
-  <img src="./assets/cover_software.png" alt="Main UI" width="800"/>
-  <br>
-  <em>The clean and intuitive user interface.</em>
-</p>
+```bash
+pip install -r requirements.txt
+pyrcc5 src/resources.qrc -o src/resources.py
+python src/main.py
+```
 
-## 🚀 Quick Start
+## Usage
 
-### System Requirements
+1. Select two video sources that you are authorized to process.
+2. Choose processing parameters and an output directory.
+3. Enable GPU acceleration when a compatible NVIDIA and FFmpeg environment is available.
+4. Run the job and validate the output video, audio, and duration.
 
-1.  **Python**: Version 3.8 or newer.
-2.  **FFmpeg**: **Must** be installed and its executable path added to the system's PATH environment variable.
-    -   Windows: Download from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/).
-    -   macOS: `brew install ffmpeg`
-    -   Linux: `sudo apt update && sudo apt install ffmpeg`
+## Current Limitations
 
-### Installation & Launch
+- Results depend on source resolution, frame rate, and encoding format.
+- GPU acceleration depends on the local FFmpeg build and driver environment.
+- The repository includes basic test utilities but not a full automated regression suite.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/toki-plus/AB-Video-Deduplicator.git
-    cd AB-Video-Deduplicator
-    ```
+## License
 
-2.  **Create and activate a virtual environment (recommended):**
-    ```bash
-    python -m venv venv
-    # On Windows
-    venv\Scripts\activate
-    # On macOS/Linux
-    source venv/bin/activate
-    ```
-
-3.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  **Generate Qt Resource File:**
-    The application's icon resources need to be compiled manually. Run the following command:
-    ```bash
-    pyrcc5 src/resources.qrc -o src/resources.py
-    ```
-5.  **Run the application:**
-    ```bash
-    python src/main.py
-    ```
-
-## 📖 Usage Guide
-
-1.  Click "Select Video A" to choose your **content video**.
-2.  Click "Select Video B" to choose your **material video**.
-3.  Select a mode from the "Deduplication Level" dropdown (start with 60fps for testing).
-4.  Check "Enable GPU Acceleration" if you have a supported NVIDIA GPU.
-5.  Click "Start Processing" and wait for the progress bar to complete.
-6.  The processed video will be saved in the `output` folder.
-
----
-
-<p align="center">
-  <strong>For technical inquiries, please connect via:</strong>
-</p>
-<table align="center">
-  <tr>
-    <td align="center">
-      <img src="./assets/wechat.png" alt="WeChat QR Code" width="200"/>
-      <br />
-      <sub><b>WeChat</b></sub>
-      <br />
-      <sub>WeChat ID: toki-plus</sub>
-      <br />
-      <sub>(Please include your purpose when adding me)</sub>
-    </td>
-    <td align="center">
-      <img src="./assets/gzh.png" alt="Public Account QR Code" width="200"/>
-      <br />
-      <sub><b>Public Account</b></sub>
-      <br />
-      <sub>Scan for tech articles & project updates</sub>
-    </td>
-  </tr>
-</table>
-
-## 📂 My Other Open-Source Projects
-
--   **[AI-Trader-For-MT5](https://github.com/toki-plus/ai-trader-for-mt5)**: An AI trading assistant and EA engineering framework for MetaTrader 5, combining MQL5, Python, MCP-style tool services, risk modules, and private custom development.
--   **[Netease Downloader](https://github.com/toki-plus/netease-downloader)**: An elegant, feature-rich desktop application for downloading high-quality and lossless music from Netease Cloud Music, with support for playlists, albums, QR login, and automatic metadata tagging.
--   **[AI-Trader-For-MT4](https://github.com/toki-plus/ai-trader-for-mt4)**: An LLM-driven autonomous MT4 trading robot framework that turns large language models into AI trading agents capable of sensing, reasoning, and acting on MetaTrader 4.
--   **[Auto USPS Tracker](https://github.com/toki-plus/auto-usps-tracker)**: A batch USPS logistics tracker designed for cross-border e-commerce sellers, supporting batch tracking and Excel report generation.
--   **[AI Mixed Cut](https://github.com/toki-plus/ai-mixed-cut)**: An AI content re-creation and mixed-cut tool that deconstructs existing videos into creative assets and automatically generates new short-form videos.
--   **[AI Video Workflow](https://github.com/toki-plus/ai-video-workflow)**: A fully automated AI-native video generation workflow integrating text-to-image, image-to-video, and text-to-music models for one-click AIGC short video creation.
--   **[AI Highlight Clip](https://github.com/toki-plus/ai-highlight-clip)**: An AI-powered intelligent clipping tool that automatically analyzes long videos and extracts highlight clips for short-form content distribution.
--   **[AI TTV Workflow](https://github.com/toki-plus/ai-ttv-workflow)**: An AI-powered text-to-video workflow that turns scripts into short videos with voiceover, subtitles, and cover images.
--   **[Video Mover](https://github.com/toki-plus/video-mover)**: An automated content creation pipeline for video monitoring, downloading, multi-dimensional processing, AI title generation, and multi-platform publishing.
-
-
-## 🤝 Contributing
-
-Contributions of any kind are welcome! If you have ideas for new features, have found a bug, or have suggestions for improvements, please:
--   Open an [Issue](https://github.com/toki-plus/AB-Video-Deduplicator/issues) to start a discussion.
--   Fork the repository and submit a [Pull Request](https://github.com/toki-plus/AB-Video-Deduplicator/pulls).
-
-If you find this project helpful, please consider giving it a ⭐!
-
-## 📜 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-
-
-
-
+See [LICENSE](./LICENSE).
